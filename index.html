@@ -39,7 +39,11 @@
             Seguidores no Instagram
             <input type="number" id="instagram" min="0" step="1" placeholder="Ex: 3200" required />
           </label>
-          <button type="submit">Salvar</button>
+          <div class="actions">
+            <button type="button" id="fetch-followers">Atualizar automaticamente</button>
+            <button type="submit">Salvar</button>
+          </div>
+          <p class="hint" id="fetch-status" aria-live="polite"></p>
         </form>
       </section>
 

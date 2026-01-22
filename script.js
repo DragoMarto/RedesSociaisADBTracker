@@ -2,6 +2,8 @@ const form = document.getElementById("entry-form");
 const entriesTable = document.getElementById("entries");
 const emptyState = document.getElementById("empty-state");
 const summary = document.getElementById("summary");
+const fetchButton = document.getElementById("fetch-followers");
+const fetchStatus = document.getElementById("fetch-status");
 
 const STORAGE_KEY = "adbtracker-entries";
 
@@ -140,6 +142,42 @@ form.addEventListener("submit", (event) => {
   saveEntries(sortEntries(entries));
   form.reset();
   renderEntries(loadEntries());
+});
+
+const setStatus = (message, isError = false) => {
+  fetchStatus.textContent = message;
+  fetchStatus.style.color = isError ? "var(--danger)" : "var(--muted)";
+};
+
+const setCurrentMonthIfEmpty = () => {
+  const monthInput = document.getElementById("month");
+  if (!monthInput.value) {
+    const now = new Date();
+    monthInput.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  }
+};
+
+fetchButton.addEventListener("click", async () => {
+  setStatus("Buscando seguidores automaticamente...");
+  try {
+    const response = await fetch("/api/followers");
+    if (!response.ok) {
+      const errorBody = await response.json().catch(() => ({}));
+      const message = errorBody.message || "Não foi possível acessar a API.";
+      throw new Error(message);
+    }
+    const data = await response.json();
+    document.getElementById("facebook").value = data.facebookFollowers ?? 0;
+    document.getElementById("instagram").value = data.instagramFollowers ?? 0;
+    setCurrentMonthIfEmpty();
+    setStatus(`Dados atualizados em ${new Date(data.fetchedAt).toLocaleString("pt-BR")}.`);
+  } catch (error) {
+    console.error("Falha ao buscar seguidores:", error);
+    setStatus(
+      "Não foi possível atualizar automaticamente. Verifique o servidor e o token.",
+      true
+    );
+  }
 });
 
 entriesTable.addEventListener("click", (event) => {
