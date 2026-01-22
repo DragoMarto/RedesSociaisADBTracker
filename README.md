@@ -44,6 +44,8 @@ Acesse: `http://localhost:3000`
 
 Clique em **“Atualizar automaticamente”** para preencher os campos com os seguidores atuais.
 
+> ⚠️ Se você abrir o `index.html` direto no navegador (arquivo local), a atualização automática só funciona se o servidor estiver rodando em `http://localhost:3000`.
+
 ## ✅ Fluxo manual (sem API)
 
 Se preferir, você ainda pode preencher manualmente os números e salvar mês a mês.

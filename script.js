@@ -6,6 +6,8 @@ const fetchButton = document.getElementById("fetch-followers");
 const fetchStatus = document.getElementById("fetch-status");
 
 const STORAGE_KEY = "adbtracker-entries";
+const API_BASE =
+  window.location.protocol === "file:" ? "http://localhost:3000" : "";
 
 const formatNumber = (value) =>
   new Intl.NumberFormat("pt-BR").format(value ?? 0);
@@ -160,7 +162,7 @@ const setCurrentMonthIfEmpty = () => {
 fetchButton.addEventListener("click", async () => {
   setStatus("Buscando seguidores automaticamente...");
   try {
-    const response = await fetch("/api/followers");
+    const response = await fetch(`${API_BASE}/api/followers`);
     if (!response.ok) {
       const errorBody = await response.json().catch(() => ({}));
       const message = errorBody.message || "Não foi possível acessar a API.";
@@ -173,10 +175,14 @@ fetchButton.addEventListener("click", async () => {
     setStatus(`Dados atualizados em ${new Date(data.fetchedAt).toLocaleString("pt-BR")}.`);
   } catch (error) {
     console.error("Falha ao buscar seguidores:", error);
-    setStatus(
-      "Não foi possível atualizar automaticamente. Verifique o servidor e o token.",
-      true
-    );
+    if (window.location.protocol === "file:") {
+      setStatus(
+        "Abra o app via servidor (npm start) para usar a atualização automática.",
+        true
+      );
+      return;
+    }
+    setStatus(error.message || "Não foi possível atualizar automaticamente.", true);
   }
 });
 
