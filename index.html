@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tracker de Seguidores - Agência do Bem</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <h1>Tracker de Seguidores</h1>
+        <p>
+          Acompanhe mês a mês a evolução dos seguidores das redes sociais onde você é
+          administrador.
+        </p>
+        <div class="links">
+          <a href="https://www.facebook.com/agenciadobem" target="_blank" rel="noreferrer">
+            Facebook: @agenciadobem
+          </a>
+          <a href="https://www.instagram.com/agenciadobem/" target="_blank" rel="noreferrer">
+            Instagram: @agenciadobem
+          </a>
+        </div>
+      </header>
+
+      <section class="card">
+        <h2>Adicionar mês</h2>
+        <form id="entry-form">
+          <label>
+            Mês de referência
+            <input type="month" id="month" required />
+          </label>
+          <label>
+            Seguidores no Facebook
+            <input type="number" id="facebook" min="0" step="1" placeholder="Ex: 1250" required />
+          </label>
+          <label>
+            Seguidores no Instagram
+            <input type="number" id="instagram" min="0" step="1" placeholder="Ex: 3200" required />
+          </label>
+          <button type="submit">Salvar</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Evolução mensal</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Mês</th>
+                <th>Facebook</th>
+                <th>Δ Facebook</th>
+                <th>Instagram</th>
+                <th>Δ Instagram</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="entries"></tbody>
+          </table>
+        </div>
+        <p class="empty" id="empty-state">
+          Nenhum dado registrado ainda. Adicione o primeiro mês acima.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Resumo rápido</h2>
+        <div class="summary" id="summary"></div>
+      </section>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
